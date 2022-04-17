@@ -1,0 +1,4 @@
+show
+info
+execute_script C:\Users\Asus\Desktop\Her\Porno\Lab5\testCommands2.txt
+info
