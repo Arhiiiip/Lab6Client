@@ -1,0 +1,4 @@
+rootProject.name = 'Lab5'
+include 'Lab6Server'
+findProject(':Lab6Server')?.name = 'lab6Server'
+
