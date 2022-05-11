@@ -1,6 +1,6 @@
 package utility;
 
-import Data.Movie;
+import data.Movie;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

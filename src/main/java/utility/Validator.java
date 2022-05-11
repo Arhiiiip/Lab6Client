@@ -1,9 +1,9 @@
 package utility;
 
-import Data.Color;
-import Data.Country;
-import Data.MovieGenre;
-import Data.MpaaRating;
+import data.Color;
+import data.Country;
+import data.MovieGenre;
+import data.MpaaRating;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +32,7 @@ public class Validator {
 
     public static Integer validatorCoordinateX() {
         int x = 317;
+        try{
         while (x > 316) {
             System.out.println("Введите координату Х, она не должна быть больше 316:");
             x = Integer.parseInt(reader.read());
@@ -39,6 +40,10 @@ public class Validator {
                 System.out.println("X не может быть больше 316");
             }
         }
+    } catch (NumberFormatException exception) {
+        System.out.println("Значение должно быть целочисленное, типа Integer");
+        return validatorCoordinateX();
+    }
         return x;
     }
 
@@ -128,7 +133,7 @@ public class Validator {
     }
 
     public static Float validatorLocationY() {
-        System.out.println("Введите координату Y:");
+        System.out.println("Введите координату локации Y:");
         String y = reader.read();
         Float y2 = null;
         try {
@@ -159,7 +164,7 @@ public class Validator {
     }
 
     public static Integer validatorOscarsCount() {
-        System.out.println("Введите количество оскаров Y:");
+        System.out.println("Введите количество оскаров:");
         String count = reader.read();
         Integer countOscars = null;
         try {

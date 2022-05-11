@@ -1,4 +1,4 @@
-package Command;
+package command;
 
 import utility.MovieFactory;
 
@@ -52,12 +52,14 @@ public class Invoker {
                 } else {
                     System.out.println("Команда не требует аргумента, смотреть help");
                 }
-            } else {
+            } else if (parts.length == 1){
                 if (!commands.get(parts[0]).isArgument) {
                     receiver.execute(commands.get(command), "");
                 } else {
                     System.out.println("Команде требуется аргумент, смотреть help");
                 }
+            } else {
+                System.out.println("Команда точно не требует столько аргументов.");
             }
         } else {
             System.out.println("Такой команды нет");

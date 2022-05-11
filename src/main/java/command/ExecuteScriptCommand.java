@@ -1,4 +1,4 @@
-package Command;
+package command;
 
 import utility.MovieFactory;
 import utility.Validator;

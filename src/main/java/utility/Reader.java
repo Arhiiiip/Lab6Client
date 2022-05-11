@@ -1,6 +1,6 @@
 package utility;
 
-import Command.Invoker;
+import command.Invoker;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;

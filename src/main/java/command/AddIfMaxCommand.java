@@ -1,13 +1,13 @@
-package Command;
+package command;
 
-import Data.Movie;
+import data.Movie;
 import utility.MovieFactory;
 
-public class AddIfMinCommand extends CommandAbstract {
+public class AddIfMaxCommand extends CommandAbstract {
 
     MovieFactory movieFactory;
 
-    public AddIfMinCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public AddIfMaxCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
         super(name, description, isArgument);
         this.movieFactory = movieFactory;
     }
@@ -15,13 +15,12 @@ public class AddIfMinCommand extends CommandAbstract {
     public void execute(String arg) {
         Movie movieForAdd = movieFactory.GetMovieFromConsole();
         int oscarsCountFromUser = movieForAdd.getOscarsCount();
-        int minOscarsCount = Integer.MAX_VALUE;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            if (movie.getOscarsCount() < minOscarsCount) {
-                minOscarsCount = movie.getOscarsCount();
+        int maxOscarsCount = 0;
+        for (Movie movie : movieFactory.getCollectionForWork())
+            if (movie.getOscarsCount() > maxOscarsCount) {
+                maxOscarsCount = movie.getOscarsCount();
             }
-        }
-        if (oscarsCountFromUser < minOscarsCount) {
+        if (oscarsCountFromUser > maxOscarsCount) {
             movieFactory.getCollectionForWork().add(movieForAdd);
             movieFactory.getCollectionManager().setDateUpdate();
         } else {

@@ -1,5 +1,5 @@
-import Command.Invoker;
-import Command.Receiver;
+import command.Invoker;
+import command.Receiver;
 import org.xml.sax.SAXException;
 import utility.*;
 

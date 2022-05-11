@@ -1,7 +1,7 @@
-package Command;
+package command;
 
-import Data.Movie;
-import Data.MovieGenre;
+import data.Movie;
+import data.MovieGenre;
 import utility.MovieFactory;
 
 public class CountGreaterGenreCommand extends CommandAbstract {

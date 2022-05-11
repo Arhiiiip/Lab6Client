@@ -1,6 +1,6 @@
-package Command;
+package command;
 
-import Data.Movie;
+import data.Movie;
 import utility.MovieFactory;
 
 public class ShowCommand extends CommandAbstract {

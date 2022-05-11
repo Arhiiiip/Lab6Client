@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Какие цвета могут быть
