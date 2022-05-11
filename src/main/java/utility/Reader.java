@@ -1,19 +1,16 @@
 package utility;
 
-import command.Invoker;
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Reader {
 
     public static Scanner scanner;
-    public Invoker invoker;
+
     static String line;
 
-    public Reader(Scanner scanner, Invoker invoker) {
+    public Reader(Scanner scanner) {
         Reader.scanner = scanner;
-        this.invoker = invoker;
     }
 
     public String read() {
