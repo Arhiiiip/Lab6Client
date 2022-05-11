@@ -1,21 +1,24 @@
 package command;
 
-import utility.MovieFactory;
+import utility.RRHandler;
+
+import java.io.IOException;
 
 public class InfoCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public InfoCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public InfoCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        System.out.println("Iнформация о коллекции:" + "\n" +
-                movieFactory.getCollectionForWork().getClass() + "\n" +
-                "Колличество эллементов: " + movieFactory.getCollectionForWork().size() + "\n" +
-                "Дата и время инициализации: " + movieFactory.getCollectionManager().getDateInitialization() + "\n" +
-                "Дата и время последнего обновления: " + movieFactory.getCollectionManager().getDateUpdate());
+        try {
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

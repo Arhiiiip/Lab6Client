@@ -1,26 +1,30 @@
 package command;
 
+<<<<<<<< Updated upstream:src/main/java/command/AverageOfOscarsCommand.java
 import data.Movie;
 import utility.MovieFactory;
+========
+import utility.RRHandler;
+
+import java.io.IOException;
+>>>>>>>> Stashed changes:src/main/java/Command/AverageOfOscarsCommand.java
 
 public class AverageOfOscarsCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public AverageOfOscarsCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public AverageOfOscarsCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
         try {
-            int sum = 0;
-            for (Movie movie : movieFactory.getCollectionForWork()) {
-                sum = sum + movie.getOscarsCount();
-            }
-            System.out.println(sum / movieFactory.getCollectionForWork().size());
-        }catch (ArithmeticException e){
-            System.out.println("Коллекция пустая, а ноль делить нельзя)))");
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 }

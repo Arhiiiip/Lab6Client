@@ -2,6 +2,9 @@ package command;
 
 import data.Movie;
 import utility.MovieFactory;
+import utility.RRHandler;
+
+import java.io.IOException;
 
 /**
  * Класс команды add
@@ -10,22 +13,20 @@ import utility.MovieFactory;
 
 public class AddCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public AddCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public AddCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
-
-    /**
-     * Iсполнение команды add
-     * @param arg
-     */
     @Override
     public void execute(String arg) {
-        Movie movie = movieFactory.GetMovieFromConsole();
-        movieFactory.getCollectionForWork().add(movie);
-        movieFactory.getCollectionManager().setDateUpdate();
+        Movie movie = MovieFactory.GetMovieFromConsole();
+        try {
+            rrHandler.reqOb(this.getName(), movie);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,20 +1,29 @@
 package command;
 
+<<<<<<<< Updated upstream:src/main/java/command/ShowCommand.java
 import data.Movie;
 import utility.MovieFactory;
+========
+import utility.RRHandler;
+
+import java.io.IOException;
+>>>>>>>> Stashed changes:src/main/java/Command/ShowCommand.java
 
 public class ShowCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public ShowCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public ShowCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            System.out.println(movie.toString());
+        try {
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -3,11 +3,12 @@ package utility;
 
 import data.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
-public class MovieFactory {
+public class MovieFactory implements Serializable {
     private Long id;
     HashSet hashSetId;
     LinkedHashSet<Movie> collectionForWork;
@@ -51,7 +52,7 @@ public class MovieFactory {
         this.collectionManager = collectionManager;
     }
 
-    public Movie GetMovieFromConsole() {
+    public static Movie GetMovieFromConsole() {
         long id;
         String movieName;
         Coordinates coordinates;
@@ -70,7 +71,6 @@ public class MovieFactory {
         Float locationY;
         String locationName;
 
-        id = Validator.autoCreatAndCheckId(hashSetId);
         movieName = Validator.validatorName();
         coordinatesX = Validator.validatorCoordinateX();
         coordinatesY = Validator.validatorCoordinateY();
@@ -88,7 +88,7 @@ public class MovieFactory {
         locationY = Validator.validatorLocationY();
         location = new Location(locationX, locationY, locationName);
         director = new Person(personName, weight, eyeColor, nationality, location);
-        return new Movie(id, movieName, coordinates, creationDate, oscarsCount, genre, mpaaRating, director);
+        return new Movie(0, movieName, coordinates, creationDate, oscarsCount, genre, mpaaRating, director);
 
     }
 }

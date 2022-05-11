@@ -1,9 +1,8 @@
 package data;
 
-import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
-@XmlType(propOrder = {"name", "weight", "eyeColor", "nationality", "location"})
-public class Person {
+public class Person implements Serializable {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Float weight; //Поле не может быть null, Значение поля должно быть больше 0
     private Color eyeColor; //Поле не может быть null

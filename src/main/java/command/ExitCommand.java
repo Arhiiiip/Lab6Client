@@ -1,17 +1,18 @@
 package command;
 
-import utility.MovieFactory;
+import utility.RRHandler;
 
 public class ExitCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
-    boolean temp;
 
-    public ExitCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    RRHandler rrHandler;
+
+    public ExitCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
         System.exit(0);
     }
