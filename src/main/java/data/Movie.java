@@ -1,12 +1,13 @@
 package data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Класс Movie, объекты которого и хранятся в коллекции
  */
 
-public class Movie {
+public class Movie implements Serializable, Comparable<Movie> {
 
     /** id - Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
      * Значение этого поля должно генерироваться автоматически */
@@ -104,6 +105,11 @@ public class Movie {
         return "\n" + "id:" + id + "\n" + name + "\n" + coordinates.toString() + "\n" + "Дата создания: " + creationDate
                 + "\nКоличество оскаров: " + oscarsCount + "\nЖанр: " + genre + "\nMpaaRating: " + mpaaRating
                 + "\nDirector: " + director.toString() + "\n";
+    }
+
+    @Override
+    public int compareTo(Movie o) {
+        return ((this.getCoordinates().getX() - o.getCoordinates().getY()) + (this.getCoordinates().getX() - o.getCoordinates().getY()));
     }
 
 

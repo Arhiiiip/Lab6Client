@@ -1,9 +1,14 @@
 package data;
+<<<<<<<< Updated upstream:src/main/java/data/Color.java
+========
+
+import java.io.Serializable;
+>>>>>>>> Stashed changes:src/main/java/Data/Color.java
 
 /**
  * Какие цвета могут быть
  */
-public enum Color {
+public enum Color implements Serializable {
     /** Зелёный */
     GREEN,
     RED,

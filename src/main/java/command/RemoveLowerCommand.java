@@ -1,34 +1,29 @@
 package command;
 
+<<<<<<<< Updated upstream:src/main/java/command/RemoveLowerCommand.java
 import data.Movie;
 import utility.MovieFactory;
+========
+import utility.RRHandler;
+>>>>>>>> Stashed changes:src/main/java/Command/RemoveLowerCommand.java
 
-import java.util.LinkedHashSet;
+import java.io.IOException;
 
 public class RemoveLowerCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public RemoveLowerCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public RemoveLowerCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        long oscarsCountFromUser = Integer.valueOf(arg);
-        LinkedHashSet<Movie> collectionForRemove = new LinkedHashSet<Movie>();
-        boolean isElements = false;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            if (movie.getOscarsCount() < oscarsCountFromUser) {
-                collectionForRemove.add(movie);
-                isElements = true;
-            }
-        }
-        if (isElements) {
-            movieFactory.getCollectionForWork().removeAll(collectionForRemove);
-            movieFactory.getCollectionManager().setDateUpdate();
-        } else {
-            System.out.println("Таких элементов нет");
+        try {
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

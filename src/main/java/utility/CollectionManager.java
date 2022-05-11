@@ -15,12 +15,11 @@ public class CollectionManager {
     public String link;
     int countChange;
 
-    public CollectionManager(LinkedHashSet<Movie> moviesLinkedHashSet, LocalDateTime dateInitialization, LocalDateTime dateUpdate, int countChange, String link) {
+    public CollectionManager(LinkedHashSet<Movie> moviesLinkedHashSet, LocalDateTime dateInitialization, LocalDateTime dateUpdate, String link) {
         this.link = link;
         this.moviesLinkedHashSet = moviesLinkedHashSet;
         this.dateInitialization = dateInitialization;
         this.dateUpdate = dateUpdate;
-        this.countChange = countChange;
         savedCollection.addAll(moviesLinkedHashSet);
     }
 

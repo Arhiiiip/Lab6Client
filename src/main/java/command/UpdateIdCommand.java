@@ -2,32 +2,34 @@ package command;
 
 import data.Movie;
 import utility.MovieFactory;
+import utility.ObjectForServer;
+import utility.RRHandler;
+
+import java.io.IOException;
 
 public class UpdateIdCommand extends CommandAbstract {
-    MovieFactory movieFactory;
 
-    public UpdateIdCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    RRHandler rrHandler;
+
+    public UpdateIdCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        Movie movieForChange = movieFactory.GetMovieFromConsole();
-        long idFromUser = Long.parseLong(arg);
-        boolean isId = false;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            if (movie.getId() == idFromUser) {
-                movieFactory.getCollectionForWork().remove(movie);
-                isId = true;
-                movieFactory.getCollectionManager().setDateUpdate();
-                break;
+        try {
+            rrHandler.req(this.getName(), arg);
+            ObjectForServer response = rrHandler.res();
+            if(response.isAnswerB()){
+                Movie movie = MovieFactory.GetMovieFromConsole();
+                rrHandler.reqOb(this.getName(), movie);
+            } else {
+                System.out.println("Not this id");
             }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        if (!isId) {
-            System.out.println("Такого id нет");
-        } else {
-            movieForChange.setId(idFromUser);
-            movieFactory.getCollectionForWork().add(movieForChange);
-        }
+
     }
 }

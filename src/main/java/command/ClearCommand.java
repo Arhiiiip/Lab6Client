@@ -1,22 +1,24 @@
 package command;
 
-import utility.MovieFactory;
+import utility.RRHandler;
+
+import java.io.IOException;
 
 public class ClearCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public ClearCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public ClearCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        if (!(movieFactory.getCollectionForWork().size() == 0)) {
-            movieFactory.getCollectionForWork().clear();
-            movieFactory.getCollectionManager().setDateUpdate();
-        } else {
-            System.out.println("Коллекция уже пустая!");
+        try {
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

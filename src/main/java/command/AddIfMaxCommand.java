@@ -2,29 +2,26 @@ package command;
 
 import data.Movie;
 import utility.MovieFactory;
+import utility.RRHandler;
+
+import java.io.IOException;
 
 public class AddIfMaxCommand extends CommandAbstract {
 
-    MovieFactory movieFactory;
+    RRHandler rrHandler;
 
-    public AddIfMaxCommand(String name, String description, MovieFactory movieFactory, boolean isArgument) {
+    public AddIfMaxCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
         super(name, description, isArgument);
-        this.movieFactory = movieFactory;
+        this.rrHandler = rrHandler;
     }
 
+    @Override
     public void execute(String arg) {
-        Movie movieForAdd = movieFactory.GetMovieFromConsole();
-        int oscarsCountFromUser = movieForAdd.getOscarsCount();
-        int maxOscarsCount = 0;
-        for (Movie movie : movieFactory.getCollectionForWork())
-            if (movie.getOscarsCount() > maxOscarsCount) {
-                maxOscarsCount = movie.getOscarsCount();
-            }
-        if (oscarsCountFromUser > maxOscarsCount) {
-            movieFactory.getCollectionForWork().add(movieForAdd);
-            movieFactory.getCollectionManager().setDateUpdate();
-        } else {
-            System.out.println("Таких элементов нет");
+        Movie movie = MovieFactory.GetMovieFromConsole();
+        try {
+            rrHandler.reqOb(this.getName(), movie);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
