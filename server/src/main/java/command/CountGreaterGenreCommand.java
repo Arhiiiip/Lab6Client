@@ -6,6 +6,11 @@ import utility.MovieFactory;
 import utility.ObjectForServer;
 import utility.RRHandler;
 
+import java.util.Arrays;
+
+import static data.MovieGenre.*;
+import static data.MovieGenre.SCIENCE_FICTION;
+
 public class CountGreaterGenreCommand extends CommandAbstract {
 
     MovieFactory movieFactory;
@@ -18,58 +23,19 @@ public class CountGreaterGenreCommand extends CommandAbstract {
     }
 
     public void execute(ObjectForServer arg) {
-        long countWestern = 0;
-        long countDrama = 0;
-        long countTragedy = 0;
-        long countScienceFiction = 0;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            switch (movie.getGenre()) {
-                case DRAMA: {
-                    countDrama += 1;
-                    break;
-                }
-                case TRAGEDY: {
-                    countTragedy += 1;
-                    break;
-                }
-                case WESTERN: {
-                    countWestern += 1;
-                    break;
-                }
-                case SCIENCE_FICTION: {
-                    countScienceFiction += 1;
-                    break;
-                }
-            }
-        }
+        long countDrama = movieFactory.getCollectionForWork().stream().map(Movie::getGenre).filter(DRAMA::equals).count();
+        long countWestern = movieFactory.getCollectionForWork().stream().map(Movie::getGenre).filter(TRAGEDY::equals).count();
+        long countTragedy = movieFactory.getCollectionForWork().stream().map(Movie::getGenre).filter(WESTERN::equals).count();
+        long countScienceFiction = movieFactory.getCollectionForWork().stream().map(Movie::getGenre).filter(SCIENCE_FICTION::equals).count();
 
-        long countUserGenre = 0;
         MovieGenre argUser = MovieGenre.valueOf(arg.getArg());
-        switch (argUser) {
-            case DRAMA: {
-                countUserGenre = countDrama;
-                break;
-            }
-            case TRAGEDY: {
-                countUserGenre = countTragedy;
-                break;
-            }
-            case WESTERN: {
-                countUserGenre = countWestern;
-                break;
-            }
-            case SCIENCE_FICTION: {
-                countUserGenre = countScienceFiction;
-                break;
-            }
-        }
+
+        long countUserGenre = movieFactory.getCollectionForWork().stream().map(Movie::getGenre).filter(argUser::equals).count();
+
         long[] arr = {countDrama, countTragedy, countWestern, countScienceFiction};
-        long countMore = 0;
-        for (long x : arr) {
-            if (x > countUserGenre) {
-                countMore += x;
-            }
-        }
+
+        long countMore = Arrays.stream(arr).filter(value -> countUserGenre < value).count();
+
         String result = String.valueOf(countMore);
         rrHandler.res(result);
     }

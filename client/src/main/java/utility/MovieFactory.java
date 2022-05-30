@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 
 public class MovieFactory implements Serializable {
 
+    final String login;
 
-    public MovieFactory() {
+    public MovieFactory(String login) {
+        this.login = login;
     }
 
-    public static Movie GetMovieFromConsole() {
+    public Movie GetMovieFromConsole() {
         String movieName;
         Coordinates coordinates;
         int oscarsCount;
@@ -47,7 +49,7 @@ public class MovieFactory implements Serializable {
         locationY = Validator.validatorLocationY();
         location = new Location(locationX, locationY, locationName);
         director = new Person(personName, weight, eyeColor, nationality, location);
-        return new Movie(0, movieName, coordinates, creationDate, oscarsCount, genre, mpaaRating, director);
+        return new Movie(0, movieName, coordinates, creationDate, oscarsCount, genre, mpaaRating, director, login);
 
     }
 }

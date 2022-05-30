@@ -1,7 +1,9 @@
-import utility.ObjectForServer;
 import command.Invoker;
+import command.LogAndReg;
 import command.Receiver;
 import request.RRHandler;
+import utility.MovieFactory;
+import utility.ObjectForServer;
 import utility.Reader;
 import utility.Validator;
 
@@ -23,45 +25,76 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+
+        boolean isLoging = false;
+
         while (true) {
             try {
                 Scanner scanner = new Scanner(System.in);
                 Reader reader = new Reader(scanner);
                 Validator.setReader(reader);
-                System.out.println("Введите команду:");
-                String commandUser = reader.read().trim();
-                boolean connect = false;
-                int i = 0;
-                while (!connect && i < 5) {
-                    try {
-                        clientSocket = SocketChannel.open(new InetSocketAddress("localhost", 8080));
-                        clientSocket.configureBlocking(false);
-                        connect = true;
-                    } catch (ConnectException e) {
-                        System.out.println("The server is down or busy...");
-                        i += 1;
+                Receiver receiver = new Receiver();
+
+                String loginUser = "";
+                while (!isLoging) {
+                    System.out.println("Do you want to register or login?");
+                    String entrance = reader.read();
+                    System.out.println("Enter your login:");
+                    String login = reader.read();
+                    System.out.println("Enter your password:");
+                    String password = reader.read();
+                    String arg = login + " " + password;
+                    connect();
+                    RRHandler rrHandler = new RRHandler(clientSocket);
+                    LogAndReg logAndReg = new LogAndReg(rrHandler, reader);
+                    if (logAndReg.execute(entrance, arg)) {
+                        isLoging = true;
+                        loginUser = login;
                     }
                 }
-                if (i == 5){
-                    continue;
-                }
-                Receiver receiver = new Receiver();
-                RRHandler rrHandler = new RRHandler(clientSocket);
-                Invoker invoker = new Invoker(receiver, rrHandler);
+
+                MovieFactory movieFactory = new MovieFactory(loginUser);
+
                 boolean start;
+                System.out.println("Enter command:");
+                String commandUser = reader.read().trim();
+                connect();
+                RRHandler rrHandler = new RRHandler(clientSocket);
+                Invoker invoker = new Invoker(receiver, rrHandler, movieFactory);
                 try {
                     invoker.execute(commandUser);
                     start = true;
-                } catch (RuntimeException e){
+                } catch (RuntimeException e) {
                     start = false;
                 }
-                if(start){
-                ObjectForServer response = rrHandler.res();
-                System.out.println(response.toString());}
+                if (start) {
+                    ObjectForServer response = rrHandler.res();
+                    System.out.println(response.toString());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             clientSocket.close();
+        }
+
+    }
+
+    private static void connect() throws IOException {
+        boolean connect = false;
+        int i = 0;
+        while (!connect && i < 5) {
+            try {
+                clientSocket = SocketChannel.open(new InetSocketAddress("localhost", 8090));
+                clientSocket.configureBlocking(false);
+                connect = true;
+            } catch (ConnectException e) {
+                System.out.println("The server is down or busy...");
+                i += 1;
+            }
+        }
+        if (i == 5) {
+            System.out.println("Not connection...");
+            System.exit(0);
         }
     }
 }

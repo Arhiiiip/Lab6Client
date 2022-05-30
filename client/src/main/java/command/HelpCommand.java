@@ -7,13 +7,11 @@ import java.util.Map;
 
 public class HelpCommand extends CommandAbstract{
 
-    private transient Map<String, CommandAbstract> commands;
-    RRHandler rrHandler;
+    private final transient Map<String, CommandAbstract> commands;
 
     public HelpCommand(String name, String description, Map<String, CommandAbstract> commands, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
+        super(name, description, isArgument, rrHandler);
         this.commands = commands;
-        this.rrHandler = rrHandler;
     }
 
     @Override

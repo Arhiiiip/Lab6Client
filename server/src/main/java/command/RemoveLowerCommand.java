@@ -5,7 +5,8 @@ import utility.MovieFactory;
 import utility.ObjectForServer;
 import utility.RRHandler;
 
-import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RemoveLowerCommand extends CommandAbstract {
 
@@ -19,23 +20,16 @@ public class RemoveLowerCommand extends CommandAbstract {
     }
 
     public void execute(ObjectForServer arg) {
-        long oscarsCountFromUser = Integer.valueOf(arg.getArg());
-        LinkedHashSet<Movie> collectionForRemove = new LinkedHashSet<Movie>();
-        boolean isElements = false;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            if (movie.getOscarsCount() < oscarsCountFromUser) {
-                collectionForRemove.add(movie);
-                isElements = true;
-            }
-        }
-        if (isElements) {
-            movieFactory.getCollectionForWork().removeAll(collectionForRemove);
+        long oscarsCountFromUser = Integer.parseInt(arg.getArg());
+
+        List<Movie> moviesForDel = movieFactory.getCollectionForWork().stream().filter(value -> value.getOscarsCount() < oscarsCountFromUser).collect(Collectors.toList());
+
+        if(moviesForDel.size() == 1){
+            movieFactory.getCollectionForWork().removeAll(moviesForDel);
             movieFactory.getCollectionManager().setDateUpdate();
-            String message = collectionForRemove.size() + "elements was deleted";
-            rrHandler.res(message);
+            rrHandler.res(moviesForDel.size() + "elements was deleted");
         } else {
-            String message = "There is no such element";
-            rrHandler.res(message);
+            rrHandler.res("There is no such element");
         }
     }
 }

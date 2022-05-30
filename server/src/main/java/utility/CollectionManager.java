@@ -12,11 +12,9 @@ public class CollectionManager {
     public LinkedHashSet<Movie> savedCollection = new LinkedHashSet<>();
     public LocalDateTime dateInitialization;
     public LocalDateTime dateUpdate;
-    public String link;
     int countChange;
 
-    public CollectionManager(LinkedHashSet<Movie> moviesLinkedHashSet, LocalDateTime dateInitialization, LocalDateTime dateUpdate, int countChange, String link) {
-        this.link = link;
+    public CollectionManager(LinkedHashSet<Movie> moviesLinkedHashSet, LocalDateTime dateInitialization, LocalDateTime dateUpdate, int countChange) {
         this.moviesLinkedHashSet = moviesLinkedHashSet;
         this.dateInitialization = dateInitialization;
         this.dateUpdate = dateUpdate;
@@ -54,13 +52,5 @@ public class CollectionManager {
 
     public void setDateUpdate() {
         this.dateUpdate = LocalDateTime.now();
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 }

@@ -5,6 +5,9 @@ import utility.MovieFactory;
 import utility.ObjectForServer;
 import utility.RRHandler;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class RemoveByIdCommand extends CommandAbstract {
 
     private final MovieFactory movieFactory;
@@ -17,21 +20,17 @@ public class RemoveByIdCommand extends CommandAbstract {
     }
 
     public void execute(ObjectForServer arg) {
-        long idFromUser = Long.valueOf(arg.getArg());
-        boolean isId = false;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            if (movie.getId() == idFromUser) {
-                movieFactory.getCollectionForWork().remove(movie);
-                isId = true;
-                movieFactory.getCollectionManager().setDateUpdate();
-                String message = "Element with ID" + idFromUser + "was delete";
-                rrHandler.res(message);
-                break;
-            }
-        }
-        if (!isId) {
-            String message = "Such an idea to send your mother away, HE IS NOT THERE";
-            rrHandler.res(message);
+        long idFromUser = Long.parseLong(arg.getArg());
+
+        List<Movie> colMovieForDel = movieFactory.getCollectionForWork().stream().filter(value -> value.getId() == idFromUser).collect(Collectors.toList());
+
+        if(colMovieForDel.size() == 1) {
+            Movie movieForDel = colMovieForDel.get(0);
+            movieFactory.getCollectionForWork().remove(movieForDel);
+            movieFactory.getCollectionManager().setDateUpdate();
+            rrHandler.res("Element with ID" + idFromUser + "was delete");
+        }else{
+            rrHandler.res("Such an idea to send your mother away, HE IS NOT THERE");
         }
     }
 }

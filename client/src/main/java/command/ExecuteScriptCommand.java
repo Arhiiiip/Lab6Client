@@ -23,11 +23,10 @@ public class ExecuteScriptCommand extends CommandAbstract {
 
 
     public ExecuteScriptCommand(String name, String description, HashMap<String, CommandAbstract> commands, Invoker invoker, HashSet<String> files, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
+        super(name, description, isArgument, rrHandler);
         this.commands = commands;
         this.invoker = invoker;
         this.files = files;
-        this.rrHandler = rrHandler;
     }
 
     @Override

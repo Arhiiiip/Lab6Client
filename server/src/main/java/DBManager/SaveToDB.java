@@ -1,30 +1,16 @@
-package command;
+package DBManager;
 
 import data.Movie;
-import utility.MovieFactory;
-import utility.ObjectForServer;
-import utility.RRHandler;
 
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 
-public class SaveCommand extends CommandAbstract {
+public class SaveToDB {
 
-    MovieFactory movieFactory;
-    RRHandler rrHandler;
-
-    public SaveCommand(String name, String description, MovieFactory movieFactory, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.movieFactory = movieFactory;
-        this.rrHandler = rrHandler;
-    }
-
-    public void execute(ObjectForServer arg) {
-//        String link = movieFactory.getCollectionManager().getLink();
+    public static void saveAndExit(LinkedHashSet<Movie> collection) {
         PrintWriter fileOut = null;
-//        try {
-//            fileOut = new PrintWriter(link);
             fileOut.println("<movies>");
-            for (Movie movie : movieFactory.getCollectionForWork()) {
+            for (Movie movie : collection) {
                 fileOut.println("<movie>");
                 fileOut.println("<id>" + movie.getId() + "</id>");
                 fileOut.println("<name>" + movie.getName() + "</name>");
@@ -47,8 +33,7 @@ public class SaveCommand extends CommandAbstract {
             }
             fileOut.println("</movies>");
             fileOut.close();
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Не достаточно прав для сохранения.");
-//        }
+        System.exit(0);
     }
+
 }

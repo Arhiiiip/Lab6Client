@@ -13,16 +13,16 @@ import java.io.IOException;
 
 public class AddCommand extends CommandAbstract {
 
-    RRHandler rrHandler;
+    MovieFactory movieFactory;
 
-    public AddCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+    public AddCommand(String name, String description, boolean isArgument, RRHandler rrHandler, MovieFactory movieFactory) {
+        super(name, description, isArgument, rrHandler);
+        this.movieFactory = movieFactory;
     }
 
     @Override
     public void execute(String arg) {
-        Movie movie = MovieFactory.GetMovieFromConsole();
+        Movie movie = movieFactory.GetMovieFromConsole();
         try {
             rrHandler.reqOb(this.getName(), movie);
         } catch (IOException e) {

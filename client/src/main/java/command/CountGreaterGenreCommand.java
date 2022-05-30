@@ -9,8 +9,7 @@ public class CountGreaterGenreCommand extends CommandAbstract {
     RRHandler rrHandler;
 
     public CountGreaterGenreCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+        super(name, description, isArgument, rrHandler);
     }
 
     @Override

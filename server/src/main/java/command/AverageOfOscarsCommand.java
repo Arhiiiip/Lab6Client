@@ -18,18 +18,15 @@ public class AverageOfOscarsCommand extends CommandAbstract {
 
     public void execute(ObjectForServer arg) {
         try {
-            int sum = 0;
-            for (Movie movie : movieFactory.getCollectionForWork()) {
-                sum = sum + movie.getOscarsCount();
-            }
-            int res = sum / movieFactory.getCollectionForWork().size();
+            int oscarsCount = movieFactory.getCollectionForWork().stream().map(Movie::getOscarsCount).reduce(0, Integer::sum);
+
+            int res = oscarsCount / movieFactory.getCollectionForWork().size();
             String result;
             result = String.valueOf(res);
             rrHandler.res(result);
         }catch (ArithmeticException e){
-            String message = "The collection is empty, But it is not divisible by zero if you did not study at school.\n" +
-                    "If you're going to be smart, we'll turn you off and ban you)";
-            rrHandler.res(message);
+            rrHandler.res("The collection is empty, But it is not divisible by zero if you did not study at school.\n" +
+                    "If you're going to be smart, we'll turn you off and ban you)");
         }
     }
 }

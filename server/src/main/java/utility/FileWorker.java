@@ -168,7 +168,7 @@ public class FileWorker {
 
                     collectionFromFile.add(new Movie(tempId, tempMovieName, new Coordinates(tempCoordinatesX, tempCoordinatesY), tempCreationDate,
                             tempOscarsCount, tempGenre, tempMpaaRating, new Person(tempPersonName, tempWeight,
-                            tempEyeColor, tempNationality, new Location(tempLocationX, tempLocationY, tempLocationName))));
+                            tempEyeColor, tempNationality, new Location(tempLocationX, tempLocationY, tempLocationName)), "user"));
 
                     hashSetId.add(tempId);
                 }

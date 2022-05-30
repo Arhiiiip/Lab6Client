@@ -1,16 +1,18 @@
-import utility.ObjectForServer;
+import DBManager.ImportCollection;
+import DBManager.UpdateDB;
 import command.Invoker;
 import command.Receiver;
-import org.xml.sax.SAXException;
 import utility.*;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -24,24 +26,35 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        final int PORT = 8080;
+    private static final String DB_USERNAME = "s336947";
+//    private static final String DB_PASSWORD = "";
+    private static final String DB_URL = "jdbc:postgresql://localhost:8080/studs";
+
+    public static void main(String[] args) throws IOException, SQLException {
+        Scanner scannerr = new Scanner(System.in);
+        final String DB_PASSWORD = scannerr.nextLine();
+        final int PORT = 8090;
+        scannerr.close();
         ServerSocket serverSocket = new ServerSocket(PORT);
 
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-        String link = args[0];
-        FileWorker fileWorker = new FileWorker(link);
-        CollectionManager collectionManager = new CollectionManager(fileWorker.parse(), LocalDateTime.now(), LocalDateTime.now(), 0, link);
-        HashSet hashSetId = fileWorker.takeHashSetId();
-        MovieFactory movieFactory = new MovieFactory(hashSetId, collectionManager);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> fileWorker.saveAndExit(collectionManager.getMoviesLinkedHashSet())));
+        ImportCollection importCollection = new ImportCollection(connection);
+        CollectionManager collectionManager = new CollectionManager(importCollection.getCollectionFromDB(), LocalDateTime.now(), LocalDateTime.now(), 0);
+        HashSet hashSetId = importCollection.getHashSetId();
+        MovieFactory movieFactory = new MovieFactory(hashSetId, collectionManager, connection);
+        UpdateDB updateDB = new UpdateDB(connection);
+
+//        Runtime.getRuntime().addShutdownHook(new Thread(() -> SaveToDB.saveAndExit(collectionManager.getMoviesLinkedHashSet())));
 
         Receiver receiver = new Receiver();
         Invoker invoker = new Invoker(receiver, movieFactory);
         Scanner scanner = new Scanner(System.in);
         Reader reader = new Reader(scanner, invoker);
         Validator.setReader(reader);
+
+
         while (true) {
             Socket clientConnect = serverSocket.accept();
             RRHandler rrHandler = new RRHandler(clientConnect);
@@ -50,24 +63,24 @@ public class Main {
             System.out.println("подключился пользователь " + client);
             try {
                 ObjectForServer command;
-                while (clientConnect.isConnected()) {
-                    try {
-                        InputStream stream = rrHandler.getSocket().getInputStream();
-                        ObjectInputStream objectInputStream = new ObjectInputStream(stream);
-                        command = (ObjectForServer) objectInputStream.readObject();
-                        if (command != null) {
-                            invoker.execute(command);
-                        }
-
-                    } catch (SocketException e) {
-                        System.out.println("Client " + client + " was disconnect");
-                        clientConnect.close();
-                        break;
+                try {
+                    InputStream stream = rrHandler.getSocket().getInputStream();
+                    ObjectInputStream objectInputStream = new ObjectInputStream(stream);
+                    command = (ObjectForServer) objectInputStream.readObject();
+                    if (command != null) {
+                        invoker.execute(command);
                     }
+
+                } catch (SocketException e) {
+                    System.out.println("Client " + client + " was disconnect");
+                    clientConnect.close();
+                    break;
                 }
+
             } catch (Exception e) {
                 System.out.println("Client finish operation");
             }
+            updateDB.update(collectionManager.getMoviesLinkedHashSet(), hashSetId);
         }
     }
 }

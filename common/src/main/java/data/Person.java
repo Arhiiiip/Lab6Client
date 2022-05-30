@@ -9,7 +9,6 @@ public class Person implements Serializable {
     private Country nationality; //Поле может быть null
     private Location location; //Поле может быть null
 
-
     public Person(String name, Float weight, Color eyeColor, Country nationality, Location location) {
         this.name = name;
         this.weight = weight;

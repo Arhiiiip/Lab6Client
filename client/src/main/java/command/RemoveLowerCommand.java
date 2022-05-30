@@ -6,11 +6,8 @@ import java.io.IOException;
 
 public class RemoveLowerCommand extends CommandAbstract {
 
-    RRHandler rrHandler;
-
     public RemoveLowerCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+        super(name, description, isArgument, rrHandler);
     }
 
     @Override

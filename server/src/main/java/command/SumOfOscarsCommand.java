@@ -18,10 +18,7 @@ public class SumOfOscarsCommand extends CommandAbstract {
 
     public void execute(ObjectForServer arg) {
         String result = "";
-        int sum = 0;
-        for (Movie movie : movieFactory.getCollectionForWork()) {
-            sum = sum + movie.getOscarsCount();
-        }
+        int sum = movieFactory.getCollectionForWork().stream().map(Movie::getOscarsCount).reduce(0, Integer::sum);
         result = result + sum;
         rrHandler.res(result);
     }

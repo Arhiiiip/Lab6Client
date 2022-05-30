@@ -5,10 +5,9 @@ import utility.MovieFactory;
 import utility.ObjectForServer;
 import utility.RRHandler;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShowCommand extends CommandAbstract {
 
@@ -22,18 +21,18 @@ public class ShowCommand extends CommandAbstract {
     }
 
     public void execute(ObjectForServer arg) {
-        String result = "";
-        List list = new ArrayList<>();
-        list.addAll(movieFactory.getCollectionForWork());
-        Collections.sort(list, new Comparator<Movie>() {
+        String finalResult = "";
+        List<String> listForShow = movieFactory.getCollectionForWork().stream().sorted(new Comparator<Movie>() {
             @Override
             public int compare(Movie o1, Movie o2) {
                 return o1.compareTo(o2);
             }
-        });
-        for (Object movie : list) {
-            result = result + "\n" + movie.toString();
+        }).map(value -> value.toString()).collect(Collectors.toList());
+
+        for(String str: listForShow){
+            finalResult += str;
         }
-        rrHandler.res(result);
+
+        rrHandler.res(finalResult);
     }
 }

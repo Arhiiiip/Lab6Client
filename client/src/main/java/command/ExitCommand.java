@@ -6,12 +6,8 @@ import java.io.IOException;
 
 public class ExitCommand extends CommandAbstract {
 
-
-    RRHandler rrHandler;
-
     public ExitCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+        super(name, description, isArgument, rrHandler);
     }
 
     @Override

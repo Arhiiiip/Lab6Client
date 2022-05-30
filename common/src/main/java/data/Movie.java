@@ -19,9 +19,10 @@ public class Movie implements Serializable, Comparable<Movie> {
     private MovieGenre genre; //Поле не может быть null
     private MpaaRating mpaaRating; //Поле не может быть null
     private Person director; //Поле может быть null
+    private String user;
 
     public Movie(long id, String name, Coordinates coordinates, LocalDateTime creationDate, int oscarsCount,
-                 MovieGenre genre, MpaaRating mpaaRating, Person director) {
+                 MovieGenre genre, MpaaRating mpaaRating, Person director, String user) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -30,6 +31,7 @@ public class Movie implements Serializable, Comparable<Movie> {
         this.genre = genre;
         this.mpaaRating = mpaaRating;
         this.director = director;
+        this.user = user;
     }
 
     public Movie(long aId) {
@@ -100,11 +102,19 @@ public class Movie implements Serializable, Comparable<Movie> {
         return director;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "\n" + "id:" + id + "\n" + name + "\n" + coordinates.toString() + "\n" + "Дата создания: " + creationDate
                 + "\nКоличество оскаров: " + oscarsCount + "\nЖанр: " + genre + "\nMpaaRating: " + mpaaRating
-                + "\nDirector: " + director.toString() + "\n";
+                + "\nDirector: " + director.toString() + "\n" + "User:" + user + "\n";
     }
 
     @Override

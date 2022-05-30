@@ -46,6 +46,9 @@ public class Invoker {
         commands.put("remove_lower", new RemoveLowerCommand("remove_lower {element}", "Удалить из коллекции все элементы, меньшие, чем заданный", movieFactory, true, rrHandler));
         commands.put("update_id", new UpdateIdCommand("update_id id", "Oбновить значение элемента коллекции, id которого равен заданному", movieFactory, true, rrHandler));
         commands.put("count_greater_than_genre", new CountGreaterGenreCommand("count_greater_than_genre genre", "Вывести количество элементов, значение поля genre которых больше заданного", movieFactory, true, rrHandler));
+        commands.put("register", new Registration("register", " - for registration", false, movieFactory, rrHandler));
+        commands.put("login", new Login("login", " - for login", false, movieFactory, rrHandler));
+
 //        commands.put("execute_script", new ExecuteScriptCommand("execute_script link_to_file", "Cчитать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме", movieFactory, (HashMap<String, CommandAbstract>) commands, this, files, true));
     }
 

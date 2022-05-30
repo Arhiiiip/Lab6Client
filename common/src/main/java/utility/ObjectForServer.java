@@ -11,21 +11,49 @@ public class ObjectForServer implements Serializable {
     String command;
     String arg;
     String answer;
+    String name;
+    String password;
     Movie movie;
     boolean answerB;
+    String login;
 
-    public ObjectForServer(String command, String arg) {
+    public ObjectForServer(String command, String arg, String login) {
         this.command = command;
         this.arg = arg;
+        this.login = login;
     }
 
-    public ObjectForServer(String command, Movie movie) {
+//    public ObjectForServer(String command,String name, String password, String login) {
+//        this.command = command;
+//        this.name = name;
+//        this.password = password;
+//        this.login = login;
+//    }
+
+    public ObjectForServer(String command, Movie movie, String login) {
         this.command = command;
         this.movie = movie;
+        this.login = login;
     }
 
     public Movie getMovie() {
         return movie;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isAnswerB() {
@@ -50,6 +78,14 @@ public class ObjectForServer implements Serializable {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getCommandUser() {

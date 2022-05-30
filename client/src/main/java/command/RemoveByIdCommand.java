@@ -6,11 +6,8 @@ import java.io.IOException;
 
 public class RemoveByIdCommand extends CommandAbstract {
 
-    RRHandler rrHandler;
-
     public RemoveByIdCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+        super(name, description, isArgument, rrHandler);
     }
 
     @Override

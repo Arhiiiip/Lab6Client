@@ -3,6 +3,7 @@ package utility;
 
 import data.Movie;
 
+import java.sql.Connection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -11,11 +12,21 @@ public class MovieFactory {
     HashSet hashSetId;
     LinkedHashSet<Movie> collectionForWork;
     CollectionManager collectionManager;
+    Connection connection;
 
 
-    public MovieFactory(HashSet hashSetId, CollectionManager collectionManager) {
+    public MovieFactory(HashSet hashSetId, CollectionManager collectionManager, Connection connection) {
         this.hashSetId = hashSetId;
         this.collectionManager = collectionManager;
+        this.connection = connection;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
     public Long getId() {

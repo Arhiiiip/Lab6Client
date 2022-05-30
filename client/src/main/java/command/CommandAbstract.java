@@ -1,5 +1,8 @@
 package command;
 
+import request.RRHandler;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -15,14 +18,25 @@ public abstract class CommandAbstract implements Serializable {
     /** Свойство показывающее нужен ли команде аргумент */
     final boolean isArgument;
     public String arg;
+    RRHandler rrHandler;
 
-    public CommandAbstract(String name, String description, boolean isArgument) {
+    public CommandAbstract(String name, String description, boolean isArgument, RRHandler rrHandler) {
         this.name = name;
         this.description = description;
         this.isArgument = isArgument;
+        this.rrHandler = rrHandler;
     }
 
     public void execute(String arg) {
+        try {
+            rrHandler.req(this.getName(), arg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean executeR(String arg){
+        return false;
     }
 
     public void setArg(String arg) {

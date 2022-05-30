@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class UpdateIdCommand extends CommandAbstract {
 
-    RRHandler rrHandler;
+    MovieFactory movieFactory;
 
-    public UpdateIdCommand(String name, String description, boolean isArgument, RRHandler rrHandler) {
-        super(name, description, isArgument);
-        this.rrHandler = rrHandler;
+    public UpdateIdCommand(String name, String description, boolean isArgument, RRHandler rrHandler, MovieFactory movieFactory) {
+        super(name, description, isArgument, rrHandler);
+        this.movieFactory = movieFactory;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class UpdateIdCommand extends CommandAbstract {
             rrHandler.req(this.getName(), arg);
             ObjectForServer response = rrHandler.res();
             if(response.isAnswerB()){
-                Movie movie = MovieFactory.GetMovieFromConsole();
+                Movie movie = movieFactory.GetMovieFromConsole();
                 rrHandler.reqOb(this.getName(), movie);
             } else {
                 System.out.println("Not this id");

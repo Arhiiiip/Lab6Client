@@ -10,16 +10,18 @@ public class RRHandler {
 
     Serializator serializator = new Serializator();
     SocketChannel socketChannel;
+    String login;
 
 
-    public RRHandler(SocketChannel socketChannel) {
+    public RRHandler(SocketChannel socketChannel, String login) {
         this.socketChannel = socketChannel;
+        this.login = login;
     }
 
 
     public void reqOb(String command, Movie movie) throws IOException {
         ObjectForServer req;
-        req = new ObjectForServer(command, movie);
+        req = new ObjectForServer(command, movie, login);
         Sender.send(serializator.serialize(req), socketChannel);
     }
 
